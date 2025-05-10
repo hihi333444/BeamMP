@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install gfortran
+      run: |
+         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+         sudo apt update
+         sudo apt-get install gfortran-9
+    - name: Show gfortran version
+      run: gfortran-9 --version
+    - name: Build
+      run: make FC=gfortran-9
+    - name: List files
+      run: ls
+    - name: Run
+      run: ./BeamMP-Server.exe
